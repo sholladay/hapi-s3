@@ -1,0 +1,53 @@
+{
+    "name": "hapi-s3",
+    "version": "0.0.0",
+    "description": "Use Amazon S3 in server routes",
+    "homepage": "https://github.com/sholladay/hapi-s3",
+    "main": "index.js",
+    "author": {
+        "name": "Seth Holladay",
+        "url": "https://seth-holladay.com",
+        "email": "me@seth-holladay.com"
+    },
+    "scripts": {
+        "test": "xo && ava"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:sholladay/hapi-s3.git"
+    },
+    "bugs": {
+        "url": "https://github.com/sholladay/hapi-s3/issues",
+        "email": "me@seth-holladay.com"
+    },
+    "engines": {
+        "node": ">=8"
+    },
+    "license": "MPL-2.0",
+    "files": [
+        "index.js"
+    ],
+    "dependencies": {
+        "joi": "^13.0.1",
+        "scube": "^0.3.0"
+    },
+    "devDependencies": {
+        "ava": "^0.23.0",
+        "eslint-config-tidy": "^0.5.0",
+        "hapi": "^16.1.0",
+        "xo": "^0.18.0"
+    },
+    "keywords": [
+        "hapi",
+        "server",
+        "plugin",
+        "Amazon",
+        "aws",
+        "s3",
+        "cloud",
+        "storage"
+    ],
+    "xo": {
+        "extend": "tidy"
+    }
+}
