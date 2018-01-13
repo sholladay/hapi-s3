@@ -1,13 +1,13 @@
 # hapi-s3 [![Build status for hapi S3](https://img.shields.io/circleci/project/sholladay/hapi-s3/master.svg "Build Status")](https://circleci.com/gh/sholladay/hapi-s3 "Builds")
 
-> Use [Amazon S3](https://aws.amazon.com/s3/) in server routes
+> Use [Amazon S3](https://aws.amazon.com/s3/) in your [hapi](https://hapijs.com/) server
 
 Provides an instance of [Scube](https://github.com/sholladay/scube) at `request.server.s3` in route handlers, so you can interact with S3 programmatically.
 
 ## Why?
 
  - Easily implement streaming uploads / downloads.
- - Memory efficient, one instance of the AWS SDK per server.
+ - Memory efficient, with one instance of the [AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/index.html) per server.
  - Loads credentials explicitly.
 
 ## Install
@@ -18,28 +18,36 @@ npm install hapi-s3 --save
 
 ## Usage
 
-Get it into your program.
+Register the plugin on your server to make `request.server.s3` available in route handlers.
 
 ```js
+const hapi = require('hapi');
 const s3 = require('hapi-s3');
-```
 
-Register the plugin on your server.
+const server = hapi.server();
 
-```js
-server.register({
-    register : s3,
-    options  : {
-        publicKey : process.env.AWS_ACCESS_KEY_ID,
-        secretKey : process.env.AWS_SECRET_ACCESS_KEY
-    }
-})
-    .then(() => {
-        return server.start();
-    })
-    .then(() => {
-        console.log(server.info.uri);
+const init = async () => {
+    await server.register({
+        plugin  : s3,
+        options : {
+            publicKey : process.env.AWS_ACCESS_KEY_ID,
+            secretKey : process.env.AWS_SECRET_ACCESS_KEY
+        }
     });
+    server.route({
+        method : 'GET',
+        path   : '/',
+        async handler(request) {
+            const { s3 } = request.server;
+            const buckets = await s3.listBuckets();
+            return buckets;
+        }
+    });
+    await server.start();
+    console.log('Server ready:', server.info.uri);
+};
+
+init();
 ```
 
 ## API
@@ -69,6 +77,14 @@ The public part of your credential keypair for authenticating with AWS.
 Type: `string`
 
 The private part of your credential keypair for authenticating with AWS.
+
+### Decorations
+
+For convenience, this plugin adds the following API to the hapi server instance.
+
+#### server.s3
+
+An instance of [Scube](https://github.com/sholladay/scube), a thin wrapper around the [AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/index.html). This is available as `request.server.s3` inside of route handlers.
 
 ## Related
 
