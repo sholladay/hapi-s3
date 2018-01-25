@@ -29,7 +29,7 @@
     ],
     "dependencies": {
         "joi": "^13.0.1",
-        "scube": "^0.3.0"
+        "scube": "^0.4.0"
     },
     "devDependencies": {
         "ava": "^0.24.0",
