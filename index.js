@@ -10,7 +10,7 @@ const register = (server, option) => {
         publicKey        : joi.string().required().token().min(20),
         secretKey        : joi.string().required().base64().min(40),
         endpoint         : joi.string().optional(),
-        s3ForcePathStyle : joi.boolean().default(false).optional()
+        s3ForcePathStyle : joi.boolean().optional().default(false)
     }));
 
     server.decorate('server', 's3', new Scube(config));
