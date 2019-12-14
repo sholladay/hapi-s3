@@ -27,6 +27,9 @@
     "files": [
         "index.js"
     ],
+    "peerDependencies": {
+        "@hapi/hapi": ">=18"
+    },
     "dependencies": {
         "@hapi/joi": "^16.1.8",
         "scube": "^2.0.0"
