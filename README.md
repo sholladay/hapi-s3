@@ -2,7 +2,7 @@
 
 > Use [Amazon S3](https://aws.amazon.com/s3/) in your [hapi](https://hapijs.com/) server
 
-Provides an instance of [Scube](https://github.com/sholladay/scube) at `request.server.s3` in route handlers, so you can interact with S3 programmatically.
+Provides an instance of [Scube](https://github.com/sholladay/scube), a thin wrapper around the S3 client from the [AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/index.html), so you can interact with S3 programmatically. It is available at `request.server.s3` in route handlers.
 
 ## Why?
 
@@ -54,29 +54,11 @@ init();
 
 Please see [Scube](https://github.com/sholladay/scube) for details on the `s3` object.
 
-### option
+### Plugin options
 
 Type: `object`
 
-Plugin settings.
-
-##### bucket
-
-Type: `string`
-
-The default bucket name to use. A bucket is a unique, worldwide namespace to store your data in. Choose it carefully.
-
-##### publicKey
-
-Type: `string`
-
-The public part of your credential keypair for authenticating with AWS.
-
-##### secretKey
-
-Type: `string`
-
-The private part of your credential keypair for authenticating with AWS.
+The options are passed to `new Scube()` to configure the S3 client. See [Scube](https://github.com/sholladay/scube) for details on the available options, such as `bucket`, `region`, and others.
 
 ### Decorations
 
@@ -84,7 +66,7 @@ For convenience, this plugin adds the following API to the hapi server instance.
 
 #### server.s3
 
-An instance of [Scube](https://github.com/sholladay/scube), a thin wrapper around the [AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/index.html). This is available as `request.server.s3` inside of route handlers.
+An instance of [Scube](https://github.com/sholladay/scube), a thin wrapper around the S3 client from the [AWS SDK](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/index.html). This is available as `request.server.s3` inside of route handlers.
 
 ## Related
 
