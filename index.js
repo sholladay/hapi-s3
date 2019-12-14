@@ -1,7 +1,7 @@
 'use strict';
 
 const Scube = require('scube');
-const joi = require('joi');
+const joi = require('@hapi/joi');
 const pkg = require('./package.json');
 
 const register = (server, option) => {

@@ -1,21 +1,21 @@
 import test from 'ava';
-import hapi from 'hapi';
+import hapi from '@hapi/hapi';
 import stripAnsi from 'strip-ansi';
 import s3plugin from '.';
 
-const mockRoute = (option) => {
+const makeRoute = (option) => {
     return {
-        method : 'POST',
+        method : 'GET',
         path   : '/',
         handler() {
-            return { foo : 'bar' };
+            return 'Hello!';
         },
         ...option
     };
 };
 
-const mockServer = async (option) => {
-    const { plugin, route } = {
+const makeServer = async (option) => {
+    const { plugin } = {
         plugin : {
             plugin  : s3plugin,
             options : {
@@ -24,41 +24,28 @@ const mockServer = async (option) => {
                 secretKey : 'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXowMQ=='
             }
         },
-        route : mockRoute(),
         ...option
     };
     const server = hapi.server();
     if (plugin) {
         await server.register(plugin);
     }
-    if (route) {
-        server.route(route);
-    }
     return server;
 };
 
-const mockRequest = (server, option) => {
-    return server.inject({
-        method : 'POST',
-        url    : '/',
-        ...option
-    });
-};
-
 test('without s3', async (t) => {
-    const server = await mockServer({
-        plugin : null,
-        route  : mockRoute({
-            handler(request) {
-                t.false('s3' in request.server);
-                return { foo : 'bar' };
-            }
-        })
-    });
+    t.plan(5);
+    const server = await makeServer({ plugin : null });
+    server.route(makeRoute({
+        handler(request) {
+            t.false('s3' in request.server);
+            return { foo : 'bar' };
+        }
+    }));
 
     t.false('s3' in server);
 
-    const response = await mockRequest(server);
+    const response = await server.inject('/');
 
     t.is(response.statusCode, 200);
     t.is(response.headers['content-type'], 'application/json; charset=utf-8');
@@ -66,32 +53,29 @@ test('without s3', async (t) => {
 });
 
 test('s3 without bucket', async (t) => {
-    const err = await t.throws(mockServer({
-        plugin : s3plugin
-    }));
-    t.true(err.isJoi);
-    // F t.is(err.message, 'child "bucket" fails because ["bucket" is required]');
-    t.is(stripAnsi(err.message), '{\n  "bucket" [1]: -- missing --\n}\n\n[1] "bucket" is required');
+    const error = await t.throwsAsync(makeServer({ plugin : s3plugin }));
+    t.true(error.isJoi);
+    t.is(stripAnsi(error.message), '"bucket" is required');
 });
 
 test('s3 basics', async (t) => {
-    const server = await mockServer({
-        route : mockRoute({
-            handler(request) {
-                const { s3 } = request.server;
-                t.truthy(s3);
-                t.is(typeof s3, 'object');
-                t.truthy(s3.upload);
-                t.is(typeof s3.upload, 'function');
-                return { foo : 'bar' };
-            }
-        })
-    });
+    t.plan(9);
+    const server = await makeServer();
+    server.route(makeRoute({
+        handler(request) {
+            const { s3 } = request.server;
+            t.truthy(s3);
+            t.is(typeof s3, 'object');
+            t.truthy(s3.upload);
+            t.is(typeof s3.upload, 'function');
+            return { foo : 'bar' };
+        }
+    }));
 
     t.truthy(server.s3);
     t.is(typeof server.s3, 'object');
 
-    const response = await mockRequest(server);
+    const response = await server.inject('/');
 
     t.is(response.statusCode, 200);
     t.is(response.headers['content-type'], 'application/json; charset=utf-8');

@@ -13,7 +13,7 @@ Provides an instance of [Scube](https://github.com/sholladay/scube), a thin wrap
 ## Install
 
 ```sh
-npm install hapi-s3 --save
+npm install hapi-s3
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm install hapi-s3 --save
 Register the plugin on your server to make `request.server.s3` available in route handlers.
 
 ```js
-const hapi = require('hapi');
+const hapi = require('@hapi/hapi');
 const s3 = require('hapi-s3');
 
 const server = hapi.server();
