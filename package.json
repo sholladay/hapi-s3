@@ -1,6 +1,6 @@
 {
     "name": "hapi-s3",
-    "version": "0.3.1",
+    "version": "1.0.0",
     "description": "Use Amazon S3 in your hapi server",
     "homepage": "https://github.com/sholladay/hapi-s3",
     "main": "index.js",
