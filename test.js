@@ -1,6 +1,5 @@
 import test from 'ava';
 import hapi from '@hapi/hapi';
-import stripAnsi from 'strip-ansi';
 import s3plugin from '.';
 
 const makeRoute = (option) => {
@@ -55,7 +54,7 @@ test('without s3', async (t) => {
 test('s3 without bucket', async (t) => {
     const error = await t.throwsAsync(makeServer({ plugin : s3plugin }));
     t.true(error.isJoi);
-    t.is(stripAnsi(error.message), '"bucket" is required');
+    t.is(error.message, '"bucket" is required');
 });
 
 test('s3 basics', async (t) => {

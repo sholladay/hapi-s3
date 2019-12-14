@@ -38,7 +38,6 @@
         "@hapi/hapi": "^18.4.0",
         "ava": "^2.4.0",
         "eslint-config-tidy": "^0.10.0",
-        "strip-ansi": "^6.0.0",
         "xo": "^0.25.3"
     },
     "keywords": [
