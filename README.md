@@ -30,6 +30,7 @@ const init = async () => {
     await server.register({
         plugin  : s3,
         options : {
+            bucket    : 'my-bucket',
             publicKey : process.env.AWS_ACCESS_KEY_ID,
             secretKey : process.env.AWS_SECRET_ACCESS_KEY
         }
