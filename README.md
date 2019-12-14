@@ -1,4 +1,4 @@
-# hapi-s3 [![Build status for hapi S3](https://img.shields.io/circleci/project/sholladay/hapi-s3/master.svg "Build Status")](https://circleci.com/gh/sholladay/hapi-s3 "Builds")
+# hapi-s3 [![Build status for hapi S3](https://travis-ci.com/sholladay/hapi-s3.svg?branch=master "Build Status")](https://travis-ci.com/sholladay/hapi-s3 "Builds")
 
 > Use [Amazon S3](https://aws.amazon.com/s3/) in your [hapi](https://hapijs.com/) server
 
