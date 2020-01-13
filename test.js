@@ -57,6 +57,11 @@ test('s3 without bucket', async (t) => {
     t.is(error.message, '"bucket" is required');
 });
 
+test('server can initialize', async (t) => {
+    const server = await makeServer();
+    await t.notThrowsAsync(server.initialize());
+});
+
 test('s3 basics', async (t) => {
     t.plan(9);
     const server = await makeServer();
